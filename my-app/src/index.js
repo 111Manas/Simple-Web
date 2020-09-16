@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import App from './App';
-
 import {BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(

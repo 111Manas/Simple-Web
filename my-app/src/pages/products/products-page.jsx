@@ -1,11 +1,11 @@
 import React from 'react';
 import './products-page.scss';
+import {homeObjOne} from '../../components/Data';import Herosection from '../../components/Hero-section/Hero-section';
 
 export default function Products() {
   return (
     <div>
-      <h3 >Product Page</h3>
-      
+      <Herosection {...homeObjOne} />
     </div>
   )
 }

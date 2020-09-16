@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { homeObjThree } from '../../components/Data';
+import Herosection from '../../components/Hero-section/Hero-section';
 
 export default function Contact() {
   return (
     <div>
-      <h3>Contach Page Here</h3>
+      <Herosection {...homeObjThree} />
     </div>
   )
 }
