@@ -5,8 +5,12 @@ import {Button} from '../../components/Button/Button';
 import { MdFingerprint } from 'react-icons/md';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
+import {createStructuredSelector} from 'reselect';
+import {connect} from 'react-redux';
+import { signOutStart } from '../../Redux/User/user-actions';
+import {selectCurrentUser} from '../../Redux/User/user-selectors';
 
-function Navbar() {
+const Navbar = ({currentUser,signOutStart}) => {
   const [click,setClick] = useState(false);
   const [button, setButton] = useState(true);
 
@@ -23,6 +27,7 @@ function Navbar() {
     useEffect(()=>{
       showButton();
     },[]);
+    
     window.addEventListener('resize', showButton);
 
   return (
@@ -62,20 +67,19 @@ function Navbar() {
             </Link>
           </li>
           <li className='nav-btn'>
-            {button ? (
-              <Link to='/signup' className="btn-link">
-                <Button buttonStyle='btn--outline'>SIGN UP</Button>
-              </Link>
-            ) : (
-              <Link to='/signup' className="btn-link">
-                <Button 
-                  buttonStyle='btn--outline'
-                  buttonSize='btn--mobile'
-                  onClick={closeMobileMenu}>
-                    SIGN UP / SIGN IN
-                </Button>
-              </Link>
-            )}
+            {currentUser ? (
+              <div className='btn-link' onClick={signOutStart}>
+                <Button buttonStyle='btn--outline' >
+              SIGN OUT
+              </Button>
+              </div>
+            ) : (<Link to='signin' className='btn-link' onClick={closeMobileMenu}>
+              <Button 
+              buttonStyle='btn--outline'
+              >
+                SIGN IN
+              </Button>
+            </Link>)}
           </li>
         </ul>
       </div>
@@ -84,4 +88,13 @@ function Navbar() {
     </>
   )
 }
-  export default Navbar;
+
+const mapStateToProps  =createStructuredSelector({
+  currentUser:selectCurrentUser
+});
+
+const mapDispatchToProps = (dispatch) =>({
+  signOutStart:()=>dispatch(signOutStart())
+});
+
+  export default connect(mapStateToProps,mapDispatchToProps)(Navbar);

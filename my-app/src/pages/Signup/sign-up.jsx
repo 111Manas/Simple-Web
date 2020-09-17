@@ -2,10 +2,12 @@ import React,{useState} from 'react';
 import './Signup.css'
 import {Button} from '../../components/Button/Button';
 import {Link} from 'react-router-dom';
+import {signUpStart} from '../../Redux/User/user-actions';
+import {connect} from 'react-redux';
 
-const Signup = () => {
+const Signup = ({signUpStart}) => {
   const [userCredential,setUserCredential] = useState({
-    name:'',
+    displayName:'',
     email:'',
     password:'',
     confirmPassword:''
@@ -13,34 +15,30 @@ const Signup = () => {
 
   const handleChange = (event) =>{
     const {value,name} = event.target;
-    setUserCredential({...userCredential,[name]:value})
-  }
+    setUserCredential({...userCredential,[name]:value});
+  };
 
-  const {name,email,password,confirmPassword} = userCredential;
+  const {displayName,email,password,confirmPassword} = userCredential;
    
-  const handleSubmit = (event) => { 
+  const handleSubmit = async event => { 
     event.preventDefault();
-  
-    setUserCredential({name:'',
-    email:'',
-    password:'',
-    confirmPassword:''})
 
       if(password!==confirmPassword){
         alert("password don't match");
         return;
       }              
-  }
-  
+
+      signUpStart({email,password,displayName})
+  };
   
   return (
     <>
     <div className="signup-form">
       <h1>Sign Up</h1>
-        <form className='signup-container'>
-            <input name='name' 
+        <form className='signup-container' onSubmit={handleSubmit}>
+            <input name='displayName' 
                   type='text'
-                  value={name} 
+                  value={displayName} 
                   className="input-box" 
                   placeholder='Your name'
                   onChange={handleChange} required />
@@ -58,11 +56,12 @@ const Signup = () => {
                   onChange={handleChange} required />
             <input name='confirmPassword'
                   type='password' 
-                  value={confirmPassword}className='input-box' placeholder='Confirm password'
+                  value={confirmPassword}className='input-box1' placeholder='Confirm password'
                   onChange={handleChange} required/>
-            <p><span><input type='checkbox'/></span> I agree to the terms and services.</p>
+            <p className='span-warning'><span >*password must be same*</span></p>
+            <p><span><input type='checkbox'/></span> I agree with the terms and services.</p>
 
-            <Button buttonSize='btn--wide' buttonColor='blue' onClick={handleSubmit}>Sign Up</Button>
+            <Button buttonSize='btn--wide' buttonColor='blue' type='submit'>Sign Up</Button>
             <p className='p'>Already have an account ?    <Link to='/signin' className='signin'>Sign In</Link></p>
           </form>
     </div>
@@ -71,4 +70,8 @@ const Signup = () => {
   )
 }
 
-export default Signup
+const mapDispatchToProps = (dispatch) =>({
+  signUpStart:(userCredential)=>dispatch(signUpStart(userCredential))
+})
+
+export default connect(null,mapDispatchToProps)(Signup);
