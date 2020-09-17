@@ -27,7 +27,7 @@ const Navbar = ({currentUser,signOutStart}) => {
     useEffect(()=>{
       showButton();
     },[]);
-    
+
     window.addEventListener('resize', showButton);
 
   return (
@@ -36,7 +36,7 @@ const Navbar = ({currentUser,signOutStart}) => {
       <nav className='navbar'>
       <div className="navbar-container container">
         <Link to='/'className="navbar-logo">
-         <MdFingerprint className='navbar-icon' />
+        <MdFingerprint className='navbar-icon' />
           JARVIS 
         </Link>
         <div className="menu-icon" onClick={handleClick}>
